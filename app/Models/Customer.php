@@ -8,7 +8,19 @@ use Database\Factories\CustomerFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * App\Models\Customer
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property ?string $phone
+ * @property ?Carbon $email_verified_at
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
+ */
 class Customer extends Model
 {
     use HasFactory;

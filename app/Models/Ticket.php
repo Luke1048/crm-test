@@ -9,7 +9,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $customer_id
+ * @property string $subject
+ * @property string $message
+ * @property string|null $status
+ * @property ?Carbon $answered_at
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
+ */
 class Ticket extends Model
 {
     use HasFactory;
