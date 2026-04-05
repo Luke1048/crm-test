@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders\User;
+namespace Database\Seeders;
 
 use App\Enums\UserRole;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder

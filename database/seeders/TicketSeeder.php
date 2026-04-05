@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Database\Seeders\Ticket;
+namespace Database\Seeders;
 
-use App\Models\Customer;
 use App\Models\Ticket;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TicketSeeder extends Seeder
 {
