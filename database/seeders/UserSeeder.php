@@ -16,8 +16,22 @@ class UserSeeder extends Seeder
         $adminRole = Role::firstOrCreate(['name' => UserRole::ADMIN]);
         $managerRole = Role::firstOrCreate(['name' => UserRole::MANAGER]);
 
+        $testAdmin = User::factory()->create([
+            'name' => 'Test Admin',
+            'email' => 'test.admin@test.com',
+            'password' => bcrypt('password'),
+        ]);
+        $testAdmin->assignRole($adminRole);
+
         $admin = User::factory()->create();
         $admin->assignRole($adminRole);
+
+        $testManager = User::factory()->create([
+            'name' => 'Test Manager',
+            'email' => 'test.manager@test.com',
+            'password' => bcrypt('password'),
+        ]);
+        $testManager->assignRole($managerRole);
 
         $managers = User::factory(5)->create();
         $managers->each(
