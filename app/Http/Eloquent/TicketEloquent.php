@@ -6,6 +6,7 @@ namespace App\Http\Eloquent;
 
 use App\Models\Ticket;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 readonly class TicketEloquent
 {
@@ -21,8 +22,8 @@ readonly class TicketEloquent
         return $ticket;
     }
 
-    public function getList(): Collection
+    public function getList(): LengthAwarePaginator
     {
-        return $this->model->all();
+        return $this->model->paginate(10);
     }
 }

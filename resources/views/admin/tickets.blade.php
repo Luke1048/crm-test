@@ -186,6 +186,20 @@
             @endforelse
             </tbody>
         </table>
+
+        <div style="margin-top: 20px; text-align: center;">
+            @if($tickets->onFirstPage())
+                <button disabled style="padding: 8px 16px; margin-right: 10px;">Previous</button>
+            @else
+                <a href="{{ $tickets->previousPageUrl() }}" style="padding: 8px 16px; margin-right: 10px; background-color:#4f46e5; color:white; border-radius:6px; text-decoration:none;">Previous</a>
+            @endif
+
+            @if($tickets->hasMorePages())
+                <a href="{{ $tickets->nextPageUrl() }}" style="padding: 8px 16px; background-color:#4f46e5; color:white; border-radius:6px; text-decoration:none;">Next</a>
+            @else
+                <button disabled style="padding: 8px 16px;">Next</button>
+            @endif
+        </div>
     </div>
 </main>
 

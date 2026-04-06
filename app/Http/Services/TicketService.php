@@ -15,6 +15,7 @@ use App\Http\Eloquent\TicketEloquent;
 use App\Http\Exceptions\CustomerFindException;
 use App\Models\Ticket;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 readonly class TicketService
 {
@@ -69,7 +70,7 @@ readonly class TicketService
         return collect($tickets);
     }
 
-    public function getTickets(): Collection
+    public function getTickets(): LengthAwarePaginator
     {
         return $this->ticketEloquent->getList();
     }
