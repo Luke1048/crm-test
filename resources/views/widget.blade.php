@@ -100,7 +100,6 @@
         <input type="email" name="email" placeholder="Email" required>
         <input type="text" name="subject" placeholder="Subject" required>
         <textarea name="message" placeholder="Message" rows="4" required></textarea>
-{{--        <input type="file" name="attachment" accept=".txt,.jpg,.jpeg">--}}
         <input type="file" name="attachment" id="attachment" class="file-input">
         <button type="submit">Create</button>
         <div class="message" id="formMessage"></div>
