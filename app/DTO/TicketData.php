@@ -9,12 +9,15 @@ use Illuminate\Support\Carbon;
 
 final class TicketData
 {
+    /**
+     * @param ?UploadedFile[] $attachments
+     */
     public function __construct(
         public string $email,
         public string $subject,
         public string $message,
         public ?string $status = null,
-        public ?UploadedFile $attachment = null,
+        public ?array $attachments = null,
         public ?Carbon $answeredAt = null,
     ) {
     }
@@ -25,7 +28,7 @@ final class TicketData
             email: $validated['email'],
             subject: $validated['subject'],
             message: $validated['message'],
-            attachment: $validated['attachment'] ?? null,
+            attachments: $validated['attachments'] ?? null,
         );
     }
 }

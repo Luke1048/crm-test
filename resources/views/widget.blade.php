@@ -100,7 +100,7 @@
         <input type="email" name="email" placeholder="Email" required>
         <input type="text" name="subject" placeholder="Subject" required>
         <textarea name="message" placeholder="Message" rows="4" required></textarea>
-        <input type="file" name="attachment" id="attachment" class="file-input">
+        <input type="file" name="attachments[]" id="attachments" class="file-input" multiple>
         <button type="submit">Create</button>
         <div class="message" id="formMessage"></div>
     </form>
@@ -115,7 +115,21 @@
         messageDiv.textContent = '';
         messageDiv.className = 'message';
 
-        const formData = new FormData(form);
+        const formData = new FormData();
+        formData.append('email', form.email.value);
+        formData.append('subject', form.subject.value);
+        formData.append('message', form.message.value);
+
+        const files = document.getElementById('attachments').files;
+        for (let i = 0; i < files.length; i++) {
+            formData.append('attachments[]', files[i]);
+        }
+
+        for (let pair of formData.entries()) {
+            if (pair[0] === 'attachments[]') {
+                console.log('Файл:', pair[1].name);
+            }
+        }
 
         try {
             const response = await fetch('/api/tickets', {
@@ -146,6 +160,5 @@
         }
     });
 </script>
-
 </body>
 </html>

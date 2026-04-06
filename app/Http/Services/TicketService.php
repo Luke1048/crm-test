@@ -38,23 +38,27 @@ readonly class TicketService
             $this->ticketEloquentHelper->prepareData(data: $data, customerId: $customer->id)
         );
 
-        if ($data->attachment) {
-            $this->saveAttachment($data->attachment, $ticket);
+        if ($data->attachments) {
+            $this->saveAttachment($data->attachments, $ticket);
         }
 
         return $ticket;
     }
 
-    private function saveAttachment(UploadedFile $uploadedFile, Ticket $ticket): void
+    private function saveAttachment(array $uploadedFiles, Ticket $ticket): void
     {
-        $path = $uploadedFile->store('tickets');
+        foreach ($uploadedFiles as $uploadedFile) {
+            $path = $uploadedFile->store('tickets');
 
-        $file = $this->fileEloquentHelper->prepareData(new FileData(
-            ticketId: $ticket->id,
-            name: $uploadedFile->getClientOriginalName(),
-            path: $path,
-        ));
+            $file = $this->fileEloquentHelper->prepareData(
+                new FileData(
+                        ticketId: $ticket->id,
+                        name: $uploadedFile->getClientOriginalName(),
+                        path: $path,
+                )
+            );
 
-        $this->fileEloquent->save($file);
+            $this->fileEloquent->save($file);
+        }
     }
 }
