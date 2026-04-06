@@ -14,8 +14,6 @@ class TicketResource extends JsonResource
 {
     public function toArray($request): array
     {
-        // dd($this->files);
-
         return [
             'id' => $this->id,
             'customer' => new CustomerResource($this->customer),
@@ -25,7 +23,6 @@ class TicketResource extends JsonResource
             'answered_at' => $this->answered_at?->toDateTimeString(),
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
-            // 'file' => new FileResource($this->files),
             'files' => FileResource::collection($this->files),
         ];
     }
