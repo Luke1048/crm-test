@@ -10,6 +10,6 @@ class ShowFormTicketController extends Controller
 {
     public function __invoke(): View
     {
-        return view('widget');
+        return view('ticket');
     }
 }
