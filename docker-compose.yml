@@ -5,10 +5,10 @@ services:
     image: mysql:8.0
     container_name: test_crm_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: crm_test_db
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT}:3306"
+      - "${DOCKER_DB_PORT}:3306"
     volumes:
       - db_data:/var/lib/mysql
 
