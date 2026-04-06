@@ -6,6 +6,7 @@ namespace App\Http\Services;
 
 use App\DTO\FileData;
 use App\DTO\TicketData;
+use App\Enums\Period;
 use App\Http\Eloquent\CustomerEloquent;
 use App\Http\Eloquent\FileEloquent;
 use App\Http\Eloquent\Helpers\FileEloquentHelper;
@@ -13,9 +14,7 @@ use App\Http\Eloquent\Helpers\TicketEloquentHelper;
 use App\Http\Eloquent\TicketEloquent;
 use App\Http\Exceptions\CustomerFindException;
 use App\Models\Ticket;
-use App\Models\File;
 use Illuminate\Support\Collection;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 readonly class TicketService
 {
@@ -63,8 +62,10 @@ readonly class TicketService
         }
     }
 
-    public function getTicketStatistics(): Collection
+    public function getTicketStatistics(Period $period = Period::WEEK): Collection
     {
-        return $this->ticketEloquent->getByPeriod();
+        $tickets = Ticket::byDate($period)->get();
+
+        return collect($tickets);
     }
 }

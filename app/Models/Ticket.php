@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Period;
 use Database\Factories\TicketFactory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property int $id
@@ -49,6 +51,28 @@ class Ticket extends Model
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public function scopeByDate(Builder $query, Period|string $period): Builder
+    {
+        $now = Carbon::now();
+        $day = $now->toDateString();
+        $weekAgo = $now->copy()->subWeek()->toDateString();
+        $monthAgo = $now->copy()->subMonth()->toDateString();
+
+        $periodEnum = is_string($period) ? Period::from($period) : $period;
+
+        return match ($periodEnum) {
+            Period::DAY => $query->whereDate('created_at', $day),
+            Period::WEEK => $query->whereBetween('created_at', [
+                $weekAgo,
+                $now,
+            ]),
+            Period::MONTH => $query->whereBetween('created_at', [
+                $monthAgo,
+                $now,
+            ]),
+        };
     }
 
     protected static function newFactory(): TicketFactory
