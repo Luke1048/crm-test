@@ -10,14 +10,14 @@ use App\Models\Ticket;
 
 class TicketEloquentHelper
 {
-    public function prepareData(TicketData $data, ?Ticket $ticket = null): Ticket
+    public function prepareData(TicketData $data, int $customerId, ?Ticket $ticket = null): Ticket
     {
         if (is_null($ticket)) {
             $ticket = new Ticket();
         }
 
-        // $ticket->customer_id = $data->customerId;
-        $ticket->customer_id = 1; // @TODO remove hardcode
+        $ticket->customer_id = $customerId;
+        // $ticket->customer_id = 1; // @TODO remove hardcode
         $ticket->subject = $data->subject;
         $ticket->message = $data->message;
         $ticket->status = $data->status ?? TicketStatus::NEW->value;

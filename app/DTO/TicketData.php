@@ -10,7 +10,6 @@ use Illuminate\Support\Carbon;
 final class TicketData
 {
     public function __construct(
-        // public int     $customerId,
         public string $email,
         public string $subject,
         public string $message,
@@ -23,11 +22,10 @@ final class TicketData
     public static function fromRequest(array $validated): self
     {
         return new self(
-        // customerId: $customerId,
             email: $validated['email'],
             subject: $validated['subject'],
             message: $validated['message'],
-            attachment: $validated['attachment'],
+            attachment: $validated['attachment'] ?? null,
         );
     }
 }
