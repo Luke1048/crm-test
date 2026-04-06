@@ -58,7 +58,6 @@
 <body>
 <header>
     <h1>Dashboard</h1>
-    <!-- Кнопка Logout -->
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Log Out</button>

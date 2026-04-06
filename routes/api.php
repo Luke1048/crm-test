@@ -3,6 +3,10 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\CreateTicketController;
+use App\Http\Controllers\GetTicketStatisticController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/tickets', CreateTicketController::class);
+Route::prefix('tickets')->group(function () {
+    Route::post('/', CreateTicketController::class);
+    Route::get('/statistics', GetTicketStatisticController::class);
+});

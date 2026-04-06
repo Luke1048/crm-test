@@ -14,6 +14,7 @@ use App\Http\Eloquent\TicketEloquent;
 use App\Http\Exceptions\CustomerFindException;
 use App\Models\Ticket;
 use App\Models\File;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 readonly class TicketService
@@ -60,5 +61,10 @@ readonly class TicketService
 
             $this->fileEloquent->save($file);
         }
+    }
+
+    public function getTicketStatistics(): Collection
+    {
+        return $this->ticketEloquent->getByPeriod();
     }
 }

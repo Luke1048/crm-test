@@ -5,13 +5,25 @@ declare(strict_types=1);
 namespace App\Http\Eloquent;
 
 use App\Models\Ticket;
+use Illuminate\Support\Collection;
 
-class TicketEloquent
+readonly class TicketEloquent
 {
+    public function __construct(
+        private Ticket $model
+    ) {
+    }
+
     public function save(Ticket $ticket): Ticket
     {
         $ticket->save();
 
         return $ticket;
+    }
+
+    public function getByPeriod(): Collection
+    {
+        return $this->model
+            ->get();
     }
 }
