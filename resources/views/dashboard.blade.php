@@ -1,17 +1,74 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4f46e5;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        header form {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        header button {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        main {
+            padding: 40px 20px;
+        }
+        .card {
+            background-color: white;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+        .card p {
+            color: #4b5563;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Dashboard</h1>
+    <!-- Кнопка Logout -->
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit">Log Out</button>
+    </form>
+</header>
+<main>
+    <div class="card">
+        <h2>Welcome, {{ Auth::user()->name ?? 'User' }}!</h2>
+        <p>You're logged in!</p>
     </div>
-</x-app-layout>
+</main>
+</body>
+</html>
