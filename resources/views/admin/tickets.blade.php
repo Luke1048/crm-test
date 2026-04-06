@@ -38,7 +38,7 @@
         }
         .card {
             background-color: white;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 20px auto;
             padding: 30px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -52,6 +52,33 @@
         .card p {
             color: #4b5563;
             font-size: 18px;
+        }
+
+        #ticketsTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        #ticketsTable th,
+        #ticketsTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #ticketsTable th {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        #ticketsTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #ticketsTable tr:hover {
+            background-color: #e0e7ff;
         }
 
         #stats ul {
@@ -109,7 +136,7 @@
 </head>
 <body>
 <header>
-    <h1>Statistics</h1>
+    <h1>Admin tickets</h1>
     <nav style="position: absolute; top: 20px; left: 20px;">
         <a href="{{ route('ticket') }}" style="color: white; text-decoration: none;  margin-right: 15px;">Ticket</a>
         <a href="{{ route('dashboard') }}" style="color: white; text-decoration: none; margin-right: 15px;">Dashboard</a>
@@ -124,64 +151,46 @@
 </header>
 <main>
     <div class="card">
-        <h2>Tickets Statistics</h2>
-        <label for="period-select">Select period:</label>
-        <select id="period-select">
-            <option value="day">Today</option>
-            <option value="week" selected>Last 7 days</option>
-            <option value="month">Last month</option>
-        </select>
-        <p id="stats">Loading...</p>
+        <h2>Tickets List</h2>
+{{--        <label for="period-select">Select period:</label>--}}
+{{--        <select id="period-select">--}}
+{{--            <option value="day">Today</option>--}}
+{{--            <option value="week" selected>Last 7 days</option>--}}
+{{--            <option value="month">Last month</option>--}}
+{{--        </select>--}}
+        <table id="ticketsTable" style="width:100%; border-collapse: collapse; margin-top:10px;">
+            <thead>
+            <tr style="background-color: #4f46e5; color: white;">
+                <th style="padding: 8px; border: 1px solid #ddd;">ID</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Email</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Subject</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Answer date</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse($tickets as $ticket)
+                <tr>
+                    <td>{{ $ticket->id }}</td>
+                    <td>{{ $ticket->email }}</td>
+                    <td>{{ $ticket->subject }}</td>
+                    <td>{{ $ticket->status }}</td>
+                    <td>{{ $ticket->answered_at }}</td>
+                    <td>{{ $ticket->created_at->format('Y-m-d H:i') }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" style="text-align:center;">No tickets found</td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
     </div>
 </main>
 
 <script>
-    const periodSelect = document.getElementById('period-select');
-
-    async function fetchStatistics(period = 'week') {
-        try {
-            const response = await fetch(`/api/tickets/statistics?period=${period}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-
-            if (!response.ok) throw new Error('Error fetching statistics');
-
-            const result = await response.json();
-            const tickets = result.tickets;
-
-            if (!tickets.length) {
-                document.getElementById('stats').innerText = 'No tickets found.';
-                return;
-            }
-
-            const statistics = tickets.reduce((acc, ticket) => {
-                acc[ticket.status] = (acc[ticket.status] || 0) + 1;
-                return acc;
-            }, {});
-
-            let html = '<ul>';
-            for (const [status, count] of Object.entries(statistics)) {
-                html += `<li><strong>${status}:</strong> ${count}</li>`;
-            }
-            html += '</ul>';
-
-            document.getElementById('stats').innerHTML = html;
-
-        } catch (error) {
-            document.getElementById('stats').innerText = 'Failed to load statistics';
-            console.error(error);
-        }
-    }
-
-    fetchStatistics(periodSelect.value);
-
-    periodSelect.addEventListener('change', () => {
-        fetchStatistics(periodSelect.value);
-    });
+    // const periodSelect = document.getElementById('period-select');
 </script>
 </body>
 </html>

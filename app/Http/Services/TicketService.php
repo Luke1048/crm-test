@@ -68,4 +68,9 @@ readonly class TicketService
 
         return collect($tickets);
     }
+
+    public function getTickets(): Collection
+    {
+        return $this->ticketEloquent->getList();
+    }
 }

@@ -4,10 +4,6 @@ use App\Http\Controllers\ShowFormTicketController;
 use App\Http\Controllers\ShowTicketStatisticController;
 use Illuminate\Support\Facades\Route;
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');

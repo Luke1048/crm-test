@@ -134,6 +134,9 @@
         <nav style="position: absolute; top: 20px; left: 20px;">
             <a href="{{ route('dashboard') }}" style="color: white; text-decoration: none; margin-right: 15px;">Dashboard</a>
             <a href="{{ route('statistics') }}" style="color: white; text-decoration: none; margin-right: 15px;">Statistics</a>
+            @role('manager')
+                <a href="{{ route('admin.tickets') }}" style="color: white; text-decoration: none; margin-right: 10px;">Tickets</a>
+            @endrole
         </nav>
         <p>Here you can create a ticket</p>
         <form id="widgetForm" enctype="multipart/form-data">

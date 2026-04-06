@@ -59,8 +59,11 @@
 <header>
     <h1>Dashboard</h1>
     <nav style="position: absolute; top: 20px; left: 20px;">
-        <a href="{{ route('statistics') }}" style="color: white; text-decoration: none; margin-right: 15px;">Statistics</a>
-        <a href="{{ route('ticket') }}" style="color: white; text-decoration: none;">Ticket</a>
+        <a href="{{ route('ticket') }}" style="color: white; text-decoration: none; margin-right: 10px;">Ticket</a>
+        <a href="{{ route('statistics') }}" style="color: white; text-decoration: none; margin-right: 10px;">Statistics</a>
+        @role('manager')
+            <a href="{{ route('admin.tickets') }}" style="color: white; text-decoration: none; margin-right: 10px;">Tickets</a>
+        @endrole
     </nav>
     <form method="POST" action="{{ route('logout') }}">
         @csrf
