@@ -70,8 +70,18 @@ readonly class TicketService
         return collect($tickets);
     }
 
-    public function getTickets(): LengthAwarePaginator
+    /* public function getTickets(): LengthAwarePaginator
     {
         return $this->ticketEloquent->getList();
+    } */
+
+    public function getTickets(
+        ?string $fromDate = null,
+        ?string $toDate = null,
+        ?string $status = null,
+        ?string $email = null,
+        ?string $phone = null
+    ): LengthAwarePaginator {
+        return $this->ticketEloquent->getList($fromDate, $toDate, $status, $email, $phone);
     }
 }

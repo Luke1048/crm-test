@@ -22,8 +22,41 @@ readonly class TicketEloquent
         return $ticket;
     }
 
-    public function getList(): LengthAwarePaginator
+    /* public function getList(): LengthAwarePaginator
     {
         return $this->model->paginate(10);
+    } */
+
+    public function getList(
+        ?string $fromDate = null,
+        ?string $toDate = null,
+        ?string $status = null,
+        ?string $email = null,
+        ?string $phone = null
+    ): LengthAwarePaginator {
+        $query = $this->model->query();
+
+        if ($fromDate) {
+            $query->whereDate('created_at', '>=', $fromDate);
+        }
+
+        if ($toDate) {
+            $query->whereDate('created_at', '<=', $toDate);
+        }
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        if ($email) {
+            $query->where('email', 'like', "%$email%");
+        }
+
+        if ($phone) {
+            $query->where('phone', 'like', "%$phone%");
+        }
+
+        // return $query->paginate(10)->withQueryString();
+        return $query->paginate(10)->withQueryString();
     }
 }
