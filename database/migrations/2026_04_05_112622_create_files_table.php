@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->string('path');
             $table->timestamps();
         });
     }

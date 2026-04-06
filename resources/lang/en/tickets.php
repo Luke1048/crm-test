@@ -19,6 +19,9 @@ return [
         'message_min' => 'Message must be at least :min characters',
         'message_max' => 'Message must not exceed :max characters',
 
+        'attachment_type' => 'Attachment must be a .txt or .jpg file',
+        'attachment_max' => 'Attachment must not exceed :max MB',
+
         'ticket_created' => 'Ticket created successfully!',
         'validation_failed' => 'Validation failed',
     ]

@@ -13,7 +13,7 @@ class CreateTicketController extends Controller
 {
     public function __invoke(
         StoreTicketRequest $request,
-        TicketService  $ticketService,
+        TicketService $ticketService,
     ): JsonResponse {
         $ticketService->createTicket(TicketData::fromRequest($request->validated()));
 

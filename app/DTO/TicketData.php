@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use App\Models\Ticket;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 
 final class TicketData
@@ -15,6 +15,7 @@ final class TicketData
         public string $subject,
         public string $message,
         public ?string $status = null,
+        public ?UploadedFile $attachment = null,
         public ?Carbon $answeredAt = null,
     ) {
     }
@@ -26,6 +27,7 @@ final class TicketData
             email: $validated['email'],
             subject: $validated['subject'],
             message: $validated['message'],
+            attachment: $validated['attachment'],
         );
     }
 }

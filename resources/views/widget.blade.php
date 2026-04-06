@@ -57,6 +57,31 @@
             font-weight: bold;
         }
 
+        .file-input {
+            padding: 0.5rem;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .file-input::-webkit-file-upload-button {
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .file-input::-webkit-file-upload-button:hover {
+            background-color: #0056b3;
+        }
+
         .error {
             color: red;
         }
@@ -71,10 +96,12 @@
 <div class="widget-container">
     <h1>Create Ticket</h1>
     <p>Here you can create a ticket</p>
-    <form id="widgetForm">
+    <form id="widgetForm" enctype="multipart/form-data">
         <input type="email" name="email" placeholder="Email" required>
         <input type="text" name="subject" placeholder="Subject" required>
         <textarea name="message" placeholder="Message" rows="4" required></textarea>
+{{--        <input type="file" name="attachment" accept=".txt,.jpg,.jpeg">--}}
+        <input type="file" name="attachment" id="attachment" class="file-input">
         <button type="submit">Create</button>
         <div class="message" id="formMessage"></div>
     </form>
@@ -90,16 +117,14 @@
         messageDiv.className = 'message';
 
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
 
         try {
             const response = await fetch('/api/tickets', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
-                body: JSON.stringify(data)
+                body: formData
             });
 
             const result = await response.json();

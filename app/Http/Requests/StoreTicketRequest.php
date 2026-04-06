@@ -21,6 +21,7 @@ class StoreTicketRequest extends FormRequest
             'email' => 'required|email|min:3|max:50|exists:customers,email',
             'subject' => 'required|string|min:5|max:50',
             'message' => 'required|string|min:5|max:255',
+            'attachment' => 'nullable|file|mimes:txt,jpg,jpeg|max:5120',
         ];
     }
 
@@ -42,6 +43,9 @@ class StoreTicketRequest extends FormRequest
             'message.string' => __('tickets.error.message_string'),
             'message.min' => __('tickets.error.message_min', ['min' => 5]),
             'message.max' => __('tickets.error.message_max', ['max' => 255]),
+
+            'attachment.mimes' => __('tickets.error.attachment_type'),
+            'attachment.max' => __('tickets.error.attachment_max', ['max' => 5]),
         ];
     }
 

@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
  * @property int $id
  * @property int $ticket_id
  * @property string $name
+ * @property string $path
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  */
@@ -24,6 +25,7 @@ class File extends Model implements HasMedia
     protected $fillable = [
         'ticket_id',
         'name',
+        'path',
     ];
 
     public function ticket(): BelongsTo
