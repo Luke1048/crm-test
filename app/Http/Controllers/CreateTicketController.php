@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\DTO\TicketData;
 use App\Http\Requests\StoreTicketRequest;
+use App\Http\Resources\TicketResource;
 use App\Http\Services\TicketService;
 use Illuminate\Http\JsonResponse;
 
@@ -15,11 +16,12 @@ class CreateTicketController extends Controller
         StoreTicketRequest $request,
         TicketService $ticketService,
     ): JsonResponse {
-        $ticketService->createTicket(TicketData::fromRequest($request->validated()));
+        $ticket = $ticketService->createTicket(TicketData::fromRequest($request->validated()));
 
         return response()->json([
             'status' => 'success',
-            'message' => __('tickets.success.ticket_created')
+            'message' => __('tickets.success.ticket_created'),
+            'ticket' => new TicketResource($ticket),
         ]);
     }
 }
