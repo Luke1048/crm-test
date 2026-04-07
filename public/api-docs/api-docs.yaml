@@ -1,0 +1,249 @@
+openapi: 3.0.3
+info:
+  title: CRM Test API
+  version: 1.0.0
+  description: API for managing tickets in CRM
+servers:
+  - url: http://localhost/api
+    description: Local server
+paths:
+  /tickets:
+    post:
+      summary: Create a new ticket
+      tags:
+        - Tickets
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - email
+                - subject
+                - message
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email of an existing customer
+                  example: user@example.com
+                subject:
+                  type: string
+                  description: Ticket subject
+                  example: "Login issue"
+                message:
+                  type: string
+                  description: Detailed message of the ticket
+                  example: "I cannot log into my account after the update."
+                attachments:
+                  type: array
+                  description: Optional file attachments
+                  items:
+                    type: string
+                    format: binary
+            encoding:
+              attachments:
+                style: form
+                explode: true
+      responses:
+        '200':
+          description: Ticket successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Ticket created successfully
+                  ticket:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      customer:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 45
+                          name:
+                            type: string
+                            example: John Doe
+                          email:
+                            type: string
+                            example: user@example.com
+                          created_at:
+                            type: string
+                            format: date-time
+                            example: "2026-01-01T12:00:00Z"
+                          updated_at:
+                            type: string
+                            format: date-time
+                            example: "2026-01-01T12:00:00Z"
+                      subject:
+                        type: string
+                        example: "Login issue"
+                      message:
+                        type: string
+                        example: "I cannot log into my account after the update."
+                      status:
+                        type: string
+                        example: open
+                      answered_at:
+                        type: string
+                        format: date-time
+                        nullable: true
+                        example: null
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2026-04-07T12:00:00Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2026-04-07T12:00:00Z"
+                      files:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            ticket_id:
+                              type: integer
+                              example: 123
+                            name:
+                              type: string
+                              example: file1.jpg
+                            url:
+                              type: string
+                              format: uri
+                              example: "https://example.com/uploads/file1.jpg"
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: "2026-04-07T12:00:00Z"
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: "2026-04-07T12:00:00Z"
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Validation failed
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: array
+                        items:
+                          type: string
+                        example:
+                          - The email field is required.
+                          - The email must be a valid email address.
+                      subject:
+                        type: array
+                        items:
+                          type: string
+                        example:
+                          - The subject field is required.
+                          - The subject must be at least 5 characters.
+                      message:
+                        type: array
+                        items:
+                          type: string
+                        example:
+                          - The message field is required.
+                          - The message must be at least 5 characters.
+                      attachments.0:
+                        type: array
+                        items:
+                          type: string
+                        example:
+                          - The attachments.0 must be a file of type: txt, jpg, jpeg.
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 123
+        customer:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 45
+            name:
+              type: string
+              example: John Doe
+            email:
+              type: string
+              example: user@example.com
+            created_at:
+              type: string
+              format: date-time
+              example: "2026-01-01T12:00:00Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2026-01-01T12:00:00Z"
+        subject:
+          type: string
+          example: "Login issue"
+        message:
+          type: string
+          example: "I cannot log into my account after the update."
+        status:
+          type: string
+          example: open
+        answered_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
+        created_at:
+          type: string
+          format: date-time
+          example: "2026-04-07T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2026-04-07T12:00:00Z"
+        files:
+          type: array
+          items:
+            type: object
+            properties:
+              ticket_id:
+                type: integer
+                example: 123
+              name:
+                type: string
+                example: file1.jpg
+              url:
+                type: string
+                format: uri
+                example: "https://example.com/uploads/file1.jpg"
+              created_at:
+                type: string
+                format: date-time
+                example: "2026-04-07T12:00:00Z"
+              updated_at:
+                type: string
+                format: date-time
+                example: "2026-04-07T12:00:00Z"
