@@ -153,56 +153,60 @@
     <div class="card">
         <h2>Tickets List</h2>
 
-        <form method="GET" action="{{ route('admin.tickets') }}" style="margin-bottom:20px; text-align:center;">
-            <input type="date" name="from_date" value="{{ request('from_date') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1;">
-            <input type="date" name="to_date" value="{{ request('to_date') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
-            <select name="status" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
-                <option value="">All Statuses</option>
-                <option value="new" {{ request('status') === 'new' ? 'selected' : '' }}>New</option>
-                <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                <option value="processed" {{ request('status') === 'processed' ? 'selected' : '' }}>Processed</option>
-            </select>
-            <input type="text" name="email" placeholder="Email" value="{{ request('email') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
-            <input type="text" name="phone" placeholder="Phone" value="{{ request('phone') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
-            <button type="submit" style="padding:8px 16px; margin-left:5px; background-color:#4f46e5; color:white; border-radius:6px; border:none; cursor:pointer;">Filter</button>
-            <a href="{{ route('admin.tickets') }}" style="display:inline-block; padding:5px 12px; margin-left:5px; background-color:#ef4444; color:white; border-radius:6px; text-decoration:none; border:none; cursor:pointer; font-size:14px; line-height:1.5;">Reset</a>
-        </form>
+        <div style="overflow-x: auto;">
+            <form method="GET" action="{{ route('admin.tickets') }}" style="margin-bottom:20px; text-align:center; white-space: nowrap;">
+                <input type="date" name="from_date" value="{{ request('from_date') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1;">
+                <input type="date" name="to_date" value="{{ request('to_date') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
+                <select name="status" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
+                    <option value="">All Statuses</option>
+                    <option value="new" {{ request('status') === 'new' ? 'selected' : '' }}>New</option>
+                    <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                    <option value="processed" {{ request('status') === 'processed' ? 'selected' : '' }}>Processed</option>
+                </select>
+                <input type="text" name="email" placeholder="Email" value="{{ request('email') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
+                <input type="text" name="phone" placeholder="Phone" value="{{ request('phone') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
+                <button type="submit" style="padding:8px 16px; margin-left:5px; background-color:#4f46e5; color:white; border-radius:6px; border:none; cursor:pointer;">Filter</button>
+                <a href="{{ route('admin.tickets') }}" style="display:inline-block; padding:5px 12px; margin-left:5px; background-color:#ef4444; color:white; border-radius:6px; text-decoration:none; border:none; cursor:pointer; font-size:14px; line-height:1.5;">Reset</a>
+            </form>
+        </div>
 
-        <table id="ticketsTable" style="width:100%; border-collapse: collapse; margin-top:10px;">
-            <thead>
-            <tr style="background-color: #4f46e5; color: white;">
-                <th style="padding: 8px; border: 1px solid #ddd;">ID</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Email</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Phone</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Subject</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Answer date</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Created At</th>
-                <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($tickets as $ticket)
-                <tr>
-                    <td>{{ $ticket->id }}</td>
-                    <td>{{ $ticket->email }}</td>
-                    <td>{{ $ticket->phone }}</td>
-                    <td>{{ $ticket->subject }}</td>
-                    <td>{{ $ticket->status }}</td>
-                    <td>{{ $ticket->answered_at }}</td>
-                    <td>{{ $ticket->created_at->format('Y-m-d H:i') }}</td>
-                    <td>
-                        <div>view</div>
-                        <div>status</div>
-                    </td>
+        <div style="overflow-x: auto;">
+            <table id="ticketsTable" style="width:100%; border-collapse: collapse; margin-top:10px;">
+                <thead>
+                <tr style="background-color: #4f46e5; color: white;">
+                    <th style="padding: 8px; border: 1px solid #ddd;">ID</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Email</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Phone</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Subject</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Answer date</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Created At</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="6" style="text-align:center;">No tickets found</td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @forelse($tickets as $ticket)
+                    <tr>
+                        <td>{{ $ticket->id }}</td>
+                        <td>{{ $ticket->email }}</td>
+                        <td>{{ $ticket->phone }}</td>
+                        <td>{{ $ticket->subject }}</td>
+                        <td>{{ $ticket->status }}</td>
+                        <td>{{ $ticket->answered_at }}</td>
+                        <td>{{ $ticket->created_at->format('Y-m-d H:i') }}</td>
+                        <td>
+                            <div>view</div>
+                            <div>status</div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" style="text-align:center;">No tickets found</td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
 
         <div style="margin-top: 20px; text-align: center;">
             @if($tickets->onFirstPage())
