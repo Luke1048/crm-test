@@ -16,7 +16,7 @@ class UpdateTicketStatusController extends Controller
     ): RedirectResponse {
         $ticketService->updateTicketStatus((int) $request->input('id'), $request->input('status'));
 
-        return redirect()->route('admin.tickets')
+        return redirect()->route('admin.tickets.list')
             ->with('success', __('tickets.success.ticket_updated'));
     }
 }

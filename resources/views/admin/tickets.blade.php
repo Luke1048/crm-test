@@ -116,6 +116,25 @@
             background-color: white;
         }
 
+        .btn-view {
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: #4f46e5;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        .btn-view:hover {
+            background-color: #4338ca;
+            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.4);
+        }
+
         .status-select {
             padding: 6px 10px;
             border-radius: 6px;
@@ -147,7 +166,7 @@
         <a href="{{ route('dashboard') }}" style="color: white; text-decoration: none; margin-right: 15px;">Dashboard</a>
         <a href="{{ route('ticket') }}" style="color: white; text-decoration: none;  margin-right: 15px;">Create Ticket</a>
         @role('manager')
-            <a href="{{ route('admin.tickets') }}" style="color: white; text-decoration: none; margin-right: 10px;">Ticket List</a>
+            <a href="{{ route('admin.tickets.list') }}" style="color: white; text-decoration: none; margin-right: 10px;">Ticket List</a>
         @endrole
     </nav>
     <form method="POST" action="{{ route('logout') }}">
@@ -160,7 +179,7 @@
         <h2>Tickets List</h2>
 
         <div style="overflow-x: auto;">
-            <form method="GET" action="{{ route('admin.tickets') }}" style="margin-bottom:20px; text-align:center; white-space: nowrap;">
+            <form method="GET" action="{{ route('admin.tickets.list') }}" style="margin-bottom:20px; text-align:center; white-space: nowrap;">
                 <input type="date" name="from_date" value="{{ request('from_date') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1;">
                 <input type="date" name="to_date" value="{{ request('to_date') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
                 <select name="status" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
@@ -172,7 +191,7 @@
                 <input type="text" name="email" placeholder="Email" value="{{ request('email') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
                 <input type="text" name="phone" placeholder="Phone" value="{{ request('phone') }}" style="padding:6px; border-radius:6px; border:1px solid #cbd5e1; margin-left:5px;">
                 <button type="submit" style="padding:8px 16px; margin-left:5px; background-color:#4f46e5; color:white; border-radius:6px; border:none; cursor:pointer;">Filter</button>
-                <a href="{{ route('admin.tickets') }}" style="display:inline-block; padding:5px 12px; margin-left:5px; background-color:#ef4444; color:white; border-radius:6px; text-decoration:none; border:none; cursor:pointer; font-size:14px; line-height:1.5;">Reset</a>
+                <a href="{{ route('admin.tickets.list') }}" style="display:inline-block; padding:5px 12px; margin-left:5px; background-color:#ef4444; color:white; border-radius:6px; text-decoration:none; border:none; cursor:pointer; font-size:14px; line-height:1.5;">Reset</a>
             </form>
         </div>
 
@@ -201,7 +220,7 @@
                         <td>{{ $ticket->answered_at }}</td>
                         <td>{{ $ticket->created_at->format('Y-m-d H:i') }}</td>
                         <td>
-                            <div>view</div>
+                            <a href="{{ route('admin.tickets.item', $ticket->id) }}" class="btn-view" target="_blank">View</a>
                             <form method="POST" action="{{ route('admin.tickets.updateStatus', $ticket->id) }}" class="status-form" data-ticket-id="{{ $ticket->id }}">
                                 @csrf
                                 @method('PUT')

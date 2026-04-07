@@ -10,14 +10,11 @@ use Illuminate\View\View;
 
 class ShowTicketListController extends Controller
 {
-    public function __construct(
-        private readonly TicketService $ticketService,
-    ) {
-    }
-
-    public function __invoke(TicketFilterRequest $request): View
-    {
-        $tickets = $this->ticketService->getTickets($request->toDTO());
+    public function __invoke(
+        TicketFilterRequest $request,
+        TicketService $ticketService,
+    ): View {
+        $tickets = $ticketService->getTickets($request->toDTO());
 
         return view('admin.tickets', [
             'tickets' => $tickets

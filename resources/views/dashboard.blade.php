@@ -62,7 +62,7 @@
         <a href="{{ route('ticket') }}" style="color: white; text-decoration: none; margin-right: 10px;">Create Ticket</a>
         <a href="{{ route('statistics') }}" style="color: white; text-decoration: none; margin-right: 10px;">Statistics</a>
         @role('manager')
-            <a href="{{ route('admin.tickets') }}" style="color: white; text-decoration: none; margin-right: 10px;">Ticket List</a>
+            <a href="{{ route('admin.tickets.list') }}" style="color: white; text-decoration: none; margin-right: 10px;">Ticket List</a>
         @endrole
     </nav>
     <form method="POST" action="{{ route('logout') }}">

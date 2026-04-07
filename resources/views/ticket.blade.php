@@ -135,7 +135,7 @@
             <a href="{{ route('dashboard') }}" style="color: white; text-decoration: none; margin-right: 15px;">Dashboard</a>
             <a href="{{ route('statistics') }}" style="color: white; text-decoration: none; margin-right: 15px;">Statistics</a>
             @role('manager')
-                <a href="{{ route('admin.tickets') }}" style="color: white; text-decoration: none; margin-right: 10px;">Ticket List</a>
+                <a href="{{ route('admin.tickets.list') }}" style="color: white; text-decoration: none; margin-right: 10px;">Ticket List</a>
             @endrole
         </nav>
         <p>Here you can create a ticket</p>

@@ -77,6 +77,10 @@ readonly class TicketService
         return $this->ticketEloquent->getList($filter);
     }
 
+    public function getTicket(int $id): Ticket {
+        return $this->ticketEloquent->getById($id);
+    }
+
     public function updateTicketStatus(int $id, string $status): Ticket
     {
         $ticket = $this->ticketEloquent->getById($id);
