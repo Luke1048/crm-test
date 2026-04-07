@@ -31,7 +31,8 @@ return [
         'status_required' => 'Ticket status is required',
         'status_invalid' => 'The selected ticket status is invalid',
 
-        'ticket_created' => 'Ticket created successfully!',
+        'ticket_daily_limit' => 'A ticket has already been created today',
+
         'validation_failed' => 'Validation failed',
     ]
 ];
