@@ -1,59 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CRM Test Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Deploy
 
-## About Laravel
+### 1. Clone the project from Git
+git clone https://github.com/Luke1048/crm-test.git
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 2. Configure the database and start Docker
+Create the `.env` file using `.env.example` as a reference.  
+Then start Docker and build the containers:
+docker-compose up -d --build
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 3. Install PHP dependencies
+docker exec -it test_crm_php8_4 composer install
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 4. Generate the application key
+docker exec -it test_crm_php8_4 php artisan key:generate
 
-## Learning Laravel
+### 5. Run migrations
+docker exec -it test_crm_php8_4 php artisan migrate
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 6. Seed the database
+docker exec -it test_crm_php8_4 php artisan db:seed
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Test Data Included**
+After seeding, the database contains sample data for testing:
 
-## Laravel Sponsors
+- Users:
+    - test.admin@test.com / password: password – Role: **admin**
+    - test.manager@test.com / password: password – Role: **manager**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Example usage of the widget iframe:
 
-### Premium Partners
+```html
+<iframe src="{{ url('DOMAIN/widget') }}" width="320" height="400" style="border:0;"></iframe>
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Here, DOMAIN should be replaced with your APP_URL from the .env file
 
-## Contributing
+**API example**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Create ticket
 
-## Code of Conduct
+curl -X POST "https://yourdomain.com/tickets" \
+-H "Accept: application/json" \
+-F "email=john.doe@example.com" \
+-F "subject=My ticket subject" \
+-F "message=This is the message body" \
+-F "attachments[]=@/path/to/file1.txt" \
+-F "attachments[]=@/path/to/file2.jpg"
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Response:
 
-## Security Vulnerabilities
+{
+    "status": "success",
+    "message": "Ticket successfully created",
+    "ticket": {
+    "id": 123,
+    "customer": {
+        "id": 10,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "created_at": "2026-04-01T09:30:00",
+        "updated_at": "2026-04-05T14:20:00"
+    },
+    "subject": "My ticket subject",
+    "message": "This is the message body",
+    "status": "new",
+    "answered_at": null,
+    "created_at": "2026-04-07T11:45:00",
+    "updated_at": "2026-04-07T11:45:00",
+    "files": [
+        {
+            "ticket_id": 123,
+            "name": "file1.txt",
+            "url": "https://yourdomain.com/storage/files/file1.txt",
+            "created_at": "2026-04-07T11:45:10",
+            "updated_at": "2026-04-07T11:45:10"
+        },
+        {
+            "ticket_id": 123,
+            "name": "file2.jpg",
+            "url": "https://yourdomain.com/storage/files/file2.jpg",
+            "created_at": "2026-04-07T11:45:12",
+            "updated_at": "2026-04-07T11:45:12"
+        }
+    ]
+}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📦 Tech Stack
+- PHP 8.4
+- Laravel 12
+- Docker / Docker Compose
+- MySQL
 
-## License
+## ⚡ Useful Commands
+- Start containers: docker-compose up -d
+- Stop containers: docker-compose down
+- Restart containers: docker-compose restart
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+> The project is now ready for local development and testing.
