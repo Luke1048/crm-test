@@ -76,4 +76,11 @@ readonly class TicketService
     ): LengthAwarePaginator {
         return $this->ticketEloquent->getList($filter);
     }
+
+    public function updateTicketStatus(int $id, string $status): Ticket
+    {
+        $ticket = $this->ticketEloquent->getById($id);
+
+        return $this->ticketEloquent->updateStatus($ticket, $status);
+    }
 }

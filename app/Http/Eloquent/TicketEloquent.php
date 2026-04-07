@@ -16,8 +16,22 @@ readonly class TicketEloquent
     ) {
     }
 
+    public function getById(int  $id): Ticket
+    {
+        return $this->model
+            ->findOrFail($id);
+    }
+
     public function save(Ticket $ticket): Ticket
     {
+        $ticket->save();
+
+        return $ticket;
+    }
+
+    public function updateStatus(Ticket $ticket, string $status): Ticket
+    {
+        $ticket->status = $status;
         $ticket->save();
 
         return $ticket;

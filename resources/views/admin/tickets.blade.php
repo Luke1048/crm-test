@@ -115,6 +115,29 @@
             color: #1f2937;
             background-color: white;
         }
+
+        .status-select {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background-color: #ffffff;
+            color: #1f2937;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 80px;
+        }
+
+        .status-select:hover {
+            border-color: #4f46e5;
+            box-shadow: 0 0 5px rgba(79, 70, 229, 0.3);
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -179,7 +202,16 @@
                         <td>{{ $ticket->created_at->format('Y-m-d H:i') }}</td>
                         <td>
                             <div>view</div>
-                            <div>status</div>
+                            <form method="POST" action="{{ route('admin.tickets.updateStatus', $ticket->id) }}" class="status-form" data-ticket-id="{{ $ticket->id }}">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="id" value="{{ $ticket->id }}">
+                                <select name="status" onchange="confirmStatusChange(this)" class="status-select">
+                                    <option value="new" {{ $ticket->status === 'new' ? 'selected' : '' }}>New</option>
+                                    <option value="in_progress" {{ $ticket->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                    <option value="processed" {{ $ticket->status === 'processed' ? 'selected' : '' }}>Processed</option>
+                                </select>
+                            </form>
                         </td>
                     </tr>
                 @empty
@@ -206,5 +238,22 @@
         </div>
     </div>
 </main>
+<script>
+    function confirmStatusChange(select) {
+        const form = select.closest('form');
+        const ticketId = form.dataset.ticketId;
+        const status = select.value;
+
+        if (confirm('Do you want to change the status of ticket with id = ' + ticketId + ' to "' + status + '"?')) {
+            form.submit();
+        } else {
+            select.value = select.getAttribute('data-current');
+        }
+    }
+
+    document.querySelectorAll('.status-form select').forEach(select => {
+        select.setAttribute('data-current', select.value);
+    });
+</script>
 </body>
 </html>

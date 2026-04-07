@@ -3,8 +3,14 @@
 return [
     'success' => [
         'ticket_created' => 'The ticket successfully created',
+        'ticket_updated' => 'The ticket status successfully updated',
     ],
     'error' => [
+        'id_required' => 'Ticket ID is required',
+        'id_integer' => 'Ticket ID must be a number',
+        'id_not_found' => 'Ticket with this ID does not exist',
+
+
         'email_required' => 'Email is required',
         'email_invalid' => 'Please enter a valid email address',
         'email_min' => 'Email must be at least :min characters',
@@ -21,6 +27,9 @@ return [
 
         'attachment_type' => 'Attachment must be a .txt or .jpg file',
         'attachment_max' => 'Attachment must not exceed :max MB',
+
+        'status_required' => 'Ticket status is required',
+        'status_invalid' => 'The selected ticket status is invalid',
 
         'ticket_created' => 'Ticket created successfully!',
         'validation_failed' => 'Validation failed',
