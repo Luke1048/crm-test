@@ -109,23 +109,6 @@
             color: #4f46e5;
         }
 
-        #period-select {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            background-color: white;
-            color: #1f2937;
-            font-size: 16px;
-            outline: none;
-            cursor: pointer;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        #period-select:focus {
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
-        }
-
         #period-select option {
             padding: 8px;
             font-size: 16px;
@@ -223,9 +206,5 @@
         </div>
     </div>
 </main>
-
-<script>
-    // const periodSelect = document.getElementById('period-select');
-</script>
 </body>
 </html>

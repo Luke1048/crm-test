@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Eloquent;
 
+use App\DTO\TicketFilterData;
+use App\Enums\TicketFilter;
 use App\Models\Ticket;
-use Illuminate\Support\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 readonly class TicketEloquent
@@ -22,33 +23,27 @@ readonly class TicketEloquent
         return $ticket;
     }
 
-    public function getList(
-        ?string $fromDate = null,
-        ?string $toDate = null,
-        ?string $status = null,
-        ?string $email = null,
-        ?string $phone = null
-    ): LengthAwarePaginator {
+    public function getList(?TicketFilterData $filter = null): LengthAwarePaginator
+    {
         $query = $this->model->query()->with('customer');
 
-        if ($fromDate) {
-            $query->whereDate('created_at', '>=', $fromDate);
+        if (!$filter) {
+            return $query->paginate(10)->withQueryString();
         }
 
-        if ($toDate) {
-            $query->whereDate('created_at', '<=', $toDate);
-        }
+        foreach (TicketFilter::cases() as $field) {
+            $value = $filter->{$field->value};
+            if (!$value) {
+                continue;
+            }
 
-        if ($status) {
-            $query->where('status', $status);
-        }
-
-        if ($email) {
-            $query->whereRelation('customer', 'email', 'like', "%{$email}%");
-        }
-
-        if ($phone) {
-            $query->whereRelation('customer', 'phone', 'like', "%{$phone}%");
+            match ($field) {
+                TicketFilter::FROM_DATE => $query->whereDate('created_at', '>=', $value),
+                TicketFilter::TO_DATE => $query->whereDate('created_at', '<=', $value),
+                TicketFilter::STATUS => $query->where('status', $value),
+                TicketFilter::EMAIL => $query->whereRelation('customer', 'email', 'like', "%{$value}%"),
+                TicketFilter::PHONE => $query->whereRelation('customer', 'phone', 'like', "%{$value}%"),
+            };
         }
 
         return $query->paginate(10)->withQueryString();

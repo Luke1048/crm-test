@@ -6,6 +6,7 @@ namespace App\Http\Services;
 
 use App\DTO\FileData;
 use App\DTO\TicketData;
+use App\DTO\TicketFilterData;
 use App\Enums\Period;
 use App\Http\Eloquent\CustomerEloquent;
 use App\Http\Eloquent\FileEloquent;
@@ -70,18 +71,9 @@ readonly class TicketService
         return collect($tickets);
     }
 
-    /* public function getTickets(): LengthAwarePaginator
-    {
-        return $this->ticketEloquent->getList();
-    } */
-
     public function getTickets(
-        ?string $fromDate = null,
-        ?string $toDate = null,
-        ?string $status = null,
-        ?string $email = null,
-        ?string $phone = null
+        ?TicketFilterData $filter = null,
     ): LengthAwarePaginator {
-        return $this->ticketEloquent->getList($fromDate, $toDate, $status, $email, $phone);
+        return $this->ticketEloquent->getList($filter);
     }
 }
