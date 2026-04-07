@@ -92,6 +92,12 @@ Response:
 You can view the interactive API documentation (Swagger UI) at:
 http://yourdomain.com/api/documentation
 
+**API Documentation**
+
+You can view the interactive API documentation (Swagger UI) at:
+http://yourdomain.com/api/documentation
+
+
 ## 📦 Tech Stack
 - PHP 8.4
 - Laravel 12
@@ -102,5 +108,6 @@ http://yourdomain.com/api/documentation
 - Start containers: docker-compose up -d
 - Stop containers: docker-compose down
 - Restart containers: docker-compose restart
+- Run tests: docker exec -it test_crm_php8_4 php artisan test tests/Feature/TicketServiceTest.php
 
 > The project is now ready for local development and testing.
