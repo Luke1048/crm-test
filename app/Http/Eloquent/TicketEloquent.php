@@ -22,11 +22,6 @@ readonly class TicketEloquent
         return $ticket;
     }
 
-    /* public function getList(): LengthAwarePaginator
-    {
-        return $this->model->paginate(10);
-    } */
-
     public function getList(
         ?string $fromDate = null,
         ?string $toDate = null,
@@ -34,7 +29,7 @@ readonly class TicketEloquent
         ?string $email = null,
         ?string $phone = null
     ): LengthAwarePaginator {
-        $query = $this->model->query();
+        $query = $this->model->query()->with('customer');
 
         if ($fromDate) {
             $query->whereDate('created_at', '>=', $fromDate);
@@ -49,14 +44,13 @@ readonly class TicketEloquent
         }
 
         if ($email) {
-            $query->where('email', 'like', "%$email%");
+            $query->whereRelation('customer', 'email', 'like', "%{$email}%");
         }
 
         if ($phone) {
-            $query->where('phone', 'like', "%$phone%");
+            $query->whereRelation('customer', 'phone', 'like', "%{$phone}%");
         }
 
-        // return $query->paginate(10)->withQueryString();
         return $query->paginate(10)->withQueryString();
     }
 }

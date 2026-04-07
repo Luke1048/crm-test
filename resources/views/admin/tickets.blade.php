@@ -188,8 +188,8 @@
                 @forelse($tickets as $ticket)
                     <tr>
                         <td>{{ $ticket->id }}</td>
-                        <td>{{ $ticket->email }}</td>
-                        <td>{{ $ticket->phone }}</td>
+                        <td>{{ $ticket->customer->email }}</td>
+                        <td>{{ $ticket->customer->phone }}</td>
                         <td>{{ $ticket->subject }}</td>
                         <td>{{ $ticket->status }}</td>
                         <td>{{ $ticket->answered_at }}</td>
