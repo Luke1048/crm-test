@@ -87,6 +87,11 @@ Response:
     ]
 }
 
+**API Documentation**
+
+You can view the interactive API documentation (Swagger UI) at:
+http://yourdomain.com/api/documentation
+
 ## 📦 Tech Stack
 - PHP 8.4
 - Laravel 12

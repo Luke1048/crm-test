@@ -10,3 +10,7 @@ Route::prefix('tickets')->group(function () {
     Route::post('/', CreateTicketController::class);
     Route::get('/statistics', GetTicketStatisticController::class);
 });
+
+Route::get('/documentation', function () {
+    return view('swagger');
+});
